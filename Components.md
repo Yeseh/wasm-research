@@ -18,7 +18,16 @@ TODO: describe what components are, how to use them, and how to compose them int
     - Container does all of linux
     - Components are more portable to hardware and OS
     - Feels like modules and packages
-    - Language agnostic
+    - Language agnostic, write once in a language and use in others
+    - Components cannot reach into eachothers state, encapsulated, different from DLL
+    - Relates to modules
+        - Building block for components
+        - Module is core webassembly concept
+        - Very lowlevel, sharing memory, like portable DLL. Modules are numbers in a trenchcoat, components are higher level interfaces that can do usefull things.
+- When to virtualize?
+    - Focus on writing the interface and be productive first
+    - Host can decide later to use native
+    
 
 
 ### Examples
