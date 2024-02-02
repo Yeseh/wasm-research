@@ -8,8 +8,8 @@ struct Hello;
 
 impl Guest for Hello {
     fn hello() {
-      let name = get_name();
-      let msg = format!("Hello, {}!", name); 
-      print(msg.as_str());
+        let name = get_name();
+        let msg = format!("Hello, {}!", name);
+        print(msg.as_str());
     }
 }
