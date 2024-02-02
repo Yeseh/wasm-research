@@ -1,0 +1,14 @@
+package yeseh:wasm-research;
+
+world fs {
+    include wasi:filesystem/imports@0.2.0;
+    // Ask some data from the host
+    import get-name: func() -> string;
+    // Ask the host to print a message 
+    import print: func(msg: string);
+    // Export the run method
+    export hello: func();
+}
+
+
+
