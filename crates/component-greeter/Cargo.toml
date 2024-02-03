@@ -1,0 +1,12 @@
+[package]
+name = "component-greeter"
+license.workspace = true
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+
+[dependencies]
+wit-bindgen = { git = "https://github.com/bytecodealliance/wit-bindgen", version = "0.16.0" }
+
+[lib]
+crate-type = ["cdylib"]

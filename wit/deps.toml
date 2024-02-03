@@ -1,2 +1,3 @@
 # NOTE: These are all the dependencies from the wasi-cli and wasi-cloud-core worlds
 filesystem = "https://github.com/WebAssembly/wasi-filesystem/archive/main.tar.gz"
+http = "https://github.com/WebAssembly/wasi-http/archive/main.tar.gz"

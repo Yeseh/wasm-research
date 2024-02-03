@@ -1,0 +1,54 @@
+[package]
+name = "wca"
+description = "Command line interface for running explorational WebAssembly components"
+keywords = ["wasm", "wasi", "webassembly", "wasmtime"]
+readme = "README.md"
+default-run = "wca"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "wca"
+path = "src/bin/wca.rs"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+wasmtime = { version = "17.0.0", features = ["component-model"] }
+wasmtime-wasi = {  version = "17.0.0" }
+clap = { version = "*" }
+anyhow = { version = "*" }
+hyper = { version = "*" }
+http = { version = "*" } 
+
+[workspace.dependencies]
+wit-bindgen = { git = "https://github.com/bytecodealliance/wit-bindgen", version = "0.16.0" }
+
+
+[workspace]
+resolver = '2'
+members = [
+    "crates/component-greeter", 
+    "crates/component-wasi-fs"
+]
+
+[workspace.package]
+version = "0.1.0"
+authors = ["Jesse Wellenberg"]
+edition = "2021"
+rust-version = "1.75"
+license = "MIT"
+
+[workspace.lints.rust]
+unused_extern_crates = 'warn'
+trivial_numeric_casts = 'warn'
+unstable_features = 'warn'
+unused_import_braces = 'warn'
+
+[features]
+default = []
