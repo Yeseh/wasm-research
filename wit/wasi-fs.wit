@@ -3,7 +3,7 @@ package yeseh:wasm-research;
 world fs {
     include wasi:filesystem/imports@0.2.0;
     // Export the run method
-    export run: func() -> result<_, string>;
+    export run: func();
 }
 
 

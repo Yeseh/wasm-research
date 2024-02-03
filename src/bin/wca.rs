@@ -1,10 +1,19 @@
 use wasmtime::{
     component::bindgen, component::Component, component::Linker, Config, Engine, Store,
 };
-use wasmtime_wasi::preview2::{ResourceTable, WasiCtx, WasiView};
+use wasmtime_wasi::sync::Dir;
+use wasmtime_wasi::preview2::{
+    ResourceTable, WasiCtx, WasiView, FilePerms, DirPerms};
 
 bindgen!({
   world: "hello",
+  async: {
+    only_imports: []
+  },
+});
+
+bindgen!({
+  world: "fs",
   async: {
     only_imports: []
   },
@@ -52,17 +61,22 @@ async fn main() -> wasmtime::Result<()> {
     config.async_support(true);
 
     let engine = Engine::new(&config)?;
-    let component =
-        Component::from_file(&engine, "wasm/components/rust_hello_guest.wasm")?;
+    let chello =
+        Component::from_file(&engine, "wasm/components/rust_greeter.wasm")?;
+    let cwasifs = 
+        Component::from_file(&engine, "wasm/components/rust_wasi_fs.wasm")?;
 
     let mut linker = Linker::new(&engine);
     Hello::add_to_linker(&mut linker, |state: &mut Host| state)?;
     wasmtime_wasi::preview2::command::add_to_linker(&mut linker)?;
 
+    let file = std::fs::File::create_new("hello.txt")?;
+    let dir = Dir::from_std_file(file);
     let ctx = wasmtime_wasi::preview2::WasiCtxBuilder::new()
         .inherit_stdio()
         .inherit_stderr()
         .inherit_stdout()
+        .preopened_dir(dir, DirPerms::MUTATE, FilePerms::WRITE, "hello.txt")
         .build();
 
     let mut store = Store::new(
@@ -72,9 +86,11 @@ async fn main() -> wasmtime::Result<()> {
             ctx,
         },
     );
-    let (bindings, _) = Hello::instantiate_async(&mut store, &component, &linker).await?;
+    let (hello, _) = Hello::instantiate_async(&mut store, &chello, &linker).await?;
+    let (fs, _) = Fs::instantiate_async(&mut store, &cwasifs, &linker).await?;
 
-    bindings.call_hello(store).await?;
+    hello.call_hello(&mut store).await?;
+    fs.call_run(&mut store).await?;
 
     Ok(())
 }

@@ -9,7 +9,7 @@ wit_bindgen::generate!({
 
 struct Fs;
 impl Guest for Fs {
-    fn run() -> anyhow::Result<(), String> {
+    fn run() {
       // Get list of preopened directories provided by the host
       let preopens = preopens::get_directories();
       // Assuming we only get one preopened directory
@@ -21,12 +21,9 @@ impl Guest for Fs {
         let pflags = types::PathFlags::SYMLINK_FOLLOW;
         let dflags = types::DescriptorFlags::WRITE;
 
+        println!("Opening file hello.txt");
         let fd = discr.open_at(pflags, "hello.txt", oflags, dflags).unwrap();
         fd.write("Hello world! From component.".as_bytes(), 0).unwrap();
-
-        return Ok(());
       }
-
-      Err("No preopened directory found".to_string())
     }
 }
