@@ -1,0 +1,20 @@
+interface petstore-client {
+    use wasi:http/outgoing-handler@0.2.0.{
+        outgoing-request, request-options, future-incoming-response, error-code,
+    };
+
+    record pet {
+        id: s64,
+        name: string,
+        tag: string, 
+    }
+
+    type pet-status = string;
+
+    find-pets-by-status: func(status: pet-status) -> result<list<pet>, error-code>;
+}
+
+world petstore {
+    export petstore-client;
+}
+

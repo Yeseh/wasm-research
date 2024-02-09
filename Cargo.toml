@@ -17,11 +17,15 @@ workspace = true
 name = "wca"
 path = "src/bin/wca.rs"
 
+[[bin]]
+name = "wit-openapi"
+path = "src/bin/wit-openapi.rs"
+
 [dependencies]
 tokio = { version = "1", features = ["full"] }
 wasmtime = { version = "17.0.0", features = ["component-model"] }
 wasmtime-wasi = {  version = "17.0.0" }
-clap = { version = "*" }
+clap = { version = "*", features = ["derive"] }
 anyhow = { version = "*" }
 hyper = { version = "*" }
 http = { version = "*" } 
@@ -33,7 +37,7 @@ wit-bindgen = { git = "https://github.com/bytecodealliance/wit-bindgen", version
 [workspace]
 resolver = '2'
 members = [
-    "crates/component-greeter", 
+    "crates/component-greeter", "crates/component-http-handler", "crates/component-petstore-client", 
     "crates/component-wasi-fs"
 ]
 

@@ -3,7 +3,8 @@ use wasmtime::{
 };
 use wasmtime_wasi::sync::Dir;
 use wasmtime_wasi::preview2::{
-    ResourceTable, WasiCtx, WasiView, FilePerms, DirPerms};
+    ResourceTable, WasiCtx, WasiView, FilePerms, DirPerms
+};
 
 bindgen!({
   world: "hello",
@@ -86,6 +87,7 @@ async fn main() -> wasmtime::Result<()> {
             ctx,
         },
     );
+
     let (hello, _) = Hello::instantiate_async(&mut store, &chello, &linker).await?;
     let (fs, _) = Fs::instantiate_async(&mut store, &cwasifs, &linker).await?;
 

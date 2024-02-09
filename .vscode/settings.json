@@ -1,5 +1,0 @@
-{
-    "rust-analyzer.linkedProjects": [
-        "./rust/bin/hello-wasi/Cargo.toml"
-    ]
-}
